@@ -21,6 +21,7 @@ interface AnimeApiResponse {
   episodes: number;
   type: string;
   rated: string;
+  url: string;
 }
 
 interface Anime {
@@ -31,6 +32,7 @@ interface Anime {
   type: string;
   status: string;
   rated: string;
+  url: string;
 }
 
 const japaneseEmoticons = [
@@ -62,7 +64,6 @@ class App extends React.Component {
     search: string,
     searchPhrase: string,
     disableSearch: boolean,
-    onlyMatches: boolean,
     animeList: Anime[],
   } = {
       alerts: [],
@@ -70,7 +71,6 @@ class App extends React.Component {
       search: '',
       searchPhrase: '',
       disableSearch: false,
-      onlyMatches: true,
       animeList: [],
     }
 
@@ -121,7 +121,8 @@ class App extends React.Component {
               episodes: a.episodes,
               type: a.type,
               status: !!a.end_date ? 'Finished' : (!!a.start_date ? 'Ongoing' : 'Upcoming'),
-              rated: a.rated
+              rated: a.rated,
+              url: a.url,
             };
           })
         }, () => this.setState({ disableSearch: false }));
@@ -166,6 +167,7 @@ class App extends React.Component {
               <TableHead>
                 <TableRow>
                   <TableCell>Title</TableCell>
+                  <TableCell align="right">Link</TableCell>
                   <TableCell align="right">Year</TableCell>
                   <TableCell align="right">Episodes</TableCell>
                   <TableCell align="right">Score</TableCell>
@@ -176,13 +178,15 @@ class App extends React.Component {
               </TableHead>
               <TableBody>
                 {this.state.animeList
-                  .filter((row: Anime) => !this.state.onlyMatches ||
-                    row.title.toLowerCase().includes(this.state.searchPhrase.toLowerCase()))
                   .map((row: Anime) => (
                     <TableRow key={row.title}>
                       <TableCell component="th" scope="row">
                         {row.title}
                       </TableCell>
+                      <TableCell align="right">
+                        <a href={row.url}>Link</a>
+                      </TableCell>
+                      <TableCell align="right">{row.year ? row.year : 'TBA'}</TableCell>
                       <TableCell align="right">{row.year ? row.year : 'TBA'}</TableCell>
                       <TableCell align="right">{row.episodes ? row.episodes : 'TBA'}</TableCell>
                       <TableCell align="right">{row.score ? row.score : 'N/A'}</TableCell>
