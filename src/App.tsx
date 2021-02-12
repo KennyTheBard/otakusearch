@@ -187,9 +187,8 @@ class App extends React.Component {
                         <a href={row.url}>Link</a>
                       </TableCell>
                       <TableCell align="right">{row.year ? row.year : 'TBA'}</TableCell>
-                      <TableCell align="right">{row.year ? row.year : 'TBA'}</TableCell>
                       <TableCell align="right">{row.episodes ? row.episodes : 'TBA'}</TableCell>
-                      <TableCell align="right">{row.score ? row.score : 'N/A'}</TableCell>
+                      <TableCell align="right">{row.score ? row.score : ''}</TableCell>
                       <TableCell align="right">{row.status}</TableCell>
                       <TableCell align="right">{row.type}</TableCell>
                       <TableCell align="right">{row.rated}</TableCell>
