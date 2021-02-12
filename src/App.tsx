@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import axios from 'axios';
+import Helmet from 'react-helmet';
 import { Alert, AlertType, IAlert } from './utils/Alert.component';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -32,10 +33,32 @@ interface Anime {
   rated: string;
 }
 
+const japaneseEmoticons = [
+  'ʕ •̀ o •́ ʔ',
+  '（▽д▽）',
+  '⋋_⋌',
+  '˃ʍ˂',
+  '( ▀ 益 ▀ )',
+  '⋌༼ •̀ ⌂ •́ ༽⋋',
+  'ᘳᗒ.ᗕᘰ',
+  '╭(๑¯д¯๑)╮',
+  '(⑉･̆⌓･̆⑉)',
+  '눈_눈',
+  '（＞д＜）',
+  '(>人<)',
+  'ヾ( ･`⌓´･)ﾉﾞ',
+  '└(○｀ε´○)┘',
+  '(ﾉ｀Д´)ﾉ',
+  '୧(๑•̀ᗝ•́)૭',
+  'ᕙ(⇀‸↼‶)ᕗ',
+  '(╯°□°）╯︵ ┻━┻'
+]
+
 class App extends React.Component {
 
   state: {
     alerts: IAlert[],
+    title: string,
     search: string,
     searchPhrase: string,
     disableSearch: boolean,
@@ -43,12 +66,25 @@ class App extends React.Component {
     animeList: Anime[],
   } = {
       alerts: [],
+      title: 'Otaku search',
       search: '',
       searchPhrase: '',
       disableSearch: false,
       onlyMatches: true,
       animeList: [],
     }
+
+  componentDidMount() {
+    setInterval(() => {
+      const random = Math.floor(Math.random() * japaneseEmoticons.length);
+      this.setState({
+        title: japaneseEmoticons[random]
+      });
+      setTimeout(() => this.setState({
+        title: 'Otaku search'
+      }), 500)
+    }, 2000);
+  }
 
   addAlert(type: AlertType, message: string) {
     this.setState({
@@ -94,8 +130,13 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
       <div className="App">
+        <Helmet>
+          <title>{this.state.title}</title>
+        </Helmet>
+
         {/* Alert manager */}
         {this.state.alerts.map((d: IAlert) =>
           <Alert message={d.message} type={d.type} />
