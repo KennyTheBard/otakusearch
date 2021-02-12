@@ -1,0 +1,38 @@
+.alert {
+  font-size: 1rem;
+  border-radius: 2px;
+  margin: 10px 0px 10px 0px;
+  padding: 1px 0px 3px 0px;
+  text-align: center;
+  width: 80%;
+  margin-left:10%;
+  background-color: lightgray;
+  color: black;
+  font-weight: bold;
+
+  &.error {
+    background-color: #ff5555;
+    color: white;
+  }
+
+  &.warning {
+    background-color: #ffaa55;
+  }
+
+  &.success {
+    background-color: lightgreen;
+  }
+}
+
+.table-container {
+  margin-left: 30px;
+  margin-right: 30px;
+
+  .table {
+    min-width: 650px;
+  }
+}
+
+.button {
+  margin: 10px;
+}
