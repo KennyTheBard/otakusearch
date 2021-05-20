@@ -36,15 +36,10 @@ interface Anime {
 }
 
 const japaneseEmoticons = [
-  'ʕ •̀ o •́ ʔ',
   '（▽д▽）',
   '⋋_⋌',
   '˃ʍ˂',
-  '( ▀ 益 ▀ )',
-  '⋌༼ •̀ ⌂ •́ ༽⋋',
-  'ᘳᗒ.ᗕᘰ',
   '╭(๑¯д¯๑)╮',
-  '(⑉･̆⌓･̆⑉)',
   '눈_눈',
   '（＞д＜）',
   '(>人<)',
@@ -53,7 +48,7 @@ const japaneseEmoticons = [
   '(ﾉ｀Д´)ﾉ',
   '୧(๑•̀ᗝ•́)૭',
   'ᕙ(⇀‸↼‶)ᕗ',
-  '(╯°□°）╯︵ ┻━┻'
+  '(╯°□°）╯'
 ]
 
 class App extends React.Component {
@@ -75,15 +70,10 @@ class App extends React.Component {
     }
 
   componentDidMount() {
-    setInterval(() => {
-      const random = Math.floor(Math.random() * japaneseEmoticons.length);
-      this.setState({
-        title: japaneseEmoticons[random]
-      });
-      setTimeout(() => this.setState({
-        title: 'Otaku search'
-      }), 500)
-    }, 2000);
+    const random = Math.floor(Math.random() * japaneseEmoticons.length);
+    this.setState({
+      title: 'Otaku search ' + japaneseEmoticons[random]
+    });
   }
 
   addAlert(type: AlertType, message: string) {
@@ -113,18 +103,20 @@ class App extends React.Component {
       .then((res: any) => {
         this.setState({
           searchPhrase: this.state.search,
-          animeList: res.data.results.map((a: AnimeApiResponse) => {
-            return {
-              title: a.title,
-              score: a.score,
-              year: a.start_date?.split('-')[0],
-              episodes: a.episodes,
-              type: a.type,
-              status: !!a.end_date ? 'Finished' : (!!a.start_date ? 'Ongoing' : 'Upcoming'),
-              rated: a.rated,
-              url: a.url,
-            };
-          })
+          animeList: res.data.results
+            // .filter((a: AnimeApiResponse) => a.title.toLowerCase().includes(this.state.search.toLowerCase()))
+            .map((a: AnimeApiResponse) => {
+              return {
+                title: a.title,
+                score: a.score,
+                year: a.start_date?.split('-')[0],
+                episodes: a.episodes,
+                type: a.type,
+                status: !!a.end_date ? 'Finished' : (!!a.start_date ? 'Ongoing' : 'Upcoming'),
+                rated: a.rated,
+                url: a.url,
+              };
+            })
         }, () => this.setState({ disableSearch: false }));
       })
       .catch((err: any) => this.addAlert(AlertType.ERROR, err.message));
